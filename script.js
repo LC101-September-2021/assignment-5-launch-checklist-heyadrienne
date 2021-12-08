@@ -2,6 +2,18 @@
 
 window.addEventListener("load", function() {
 
+    let list = document.getElementById("faultyItems");
+    list.style.visibility = "hidden";
+    let form = document.querySelector("form");
+    let pilotName = document.getElementbyId("input[name=pilotName]");
+    let copilotName = document.getElementbyId("input[name=copilotName]");
+    let faultyItems = document.getElementbyID("faultyItems");
+    let fuelLevel = document.getElementbyId("input[name=fuelLevel]");
+    let cargoMass = document.getElementbyID("input[name=CargoMass]");
+    let launchStatus = document.getElementbyID("launchStatus");
+
+
+
    let listedPlanets;
    // Set listedPlanetsResponse equal to the value returned by calling myFetch()
    let listedPlanetsResponse;
