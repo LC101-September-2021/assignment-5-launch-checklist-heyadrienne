@@ -75,19 +75,24 @@ If the shuttle is ready to launch, change the text of launchStatus to green and 
 */
 
 
-
+/*
 async function myFetch() {
     let planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response) );
 
-    planetsReturned = await fetch().then( function(response) {
+    planetsReturned = await fetch().then(function(response) {
         return response.json();
         });
 
     return planetsReturned;
 }
+*/
+async function myFetch() {
+    let planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response)
+        return response.json())
+    return planetsReturned;
 
 function pickPlanet(planets) {
-    let Random = Math.floor(Math.random() * planets.length);
+    let random = Math.floor(Math.random() * planets.length);
     return planets[random];
 
 }
