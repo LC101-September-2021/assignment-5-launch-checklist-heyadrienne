@@ -1,6 +1,6 @@
 // Write your JavaScript code here!
 
-const { addDestinationInfo, formSubmission } = require("./scriptHelper");
+//const { addDestinationInfo, formSubmission } = require("./scriptHelper");
 
 window.addEventListener("load", function() {
 
