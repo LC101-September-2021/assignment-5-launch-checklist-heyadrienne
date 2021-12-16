@@ -2,8 +2,8 @@
 require('isomorphic-fetch');
 
 function addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl) {
-    let missionTarget = document.getElementbyId('missionTarget');
-    missionTarget.innerHTML = `
+    let div = document.getElementbyId("missionTarget");
+    div.innerHTML = `
                 <h2>Mission Destination</h2>
                 <ol>
                     <li>Name: ${name} </li>
@@ -26,45 +26,53 @@ function validateInput(testInput) {
    }
 }
 
-function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
+function formSubmission(document, list, pilot, copilot, fuelLevel, cargoMass) {
    let pilotStatus = document.getElementbyId("pilotStatus");
    let copilotStatus = document.getElementbyId("copilotStatus");
-   let faultyItems = document.getElementbyID("faultyItems");
+   //let faultyItems = document.getElementbyID("faultyItems");
    let fuelStatus = document.getElementbyId("fuelStatus");
    let cargoStatus = document.getElementbyID("cargoStatus");
    let launchStatus = document.getElementbyID("launchStatus");
 
    //perform check of empty
-   if (validateInput(pilot) === "Empty" || validateInput(copilot) === "Empty" || validateInput(fuelLevel === "Empty") || validateInput(cargoLevel) === "Empty") {
+   if (
+       validateInput(pilot) === "Empty" ||
+       validateInput(copilot) === "Empty" ||
+       validateInput(fuelLevel === "Empty") ||
+       validateInput(cargoMass) === "Empty") {
        alert = "All Fields Required!"
     //perform NaN check
-   } else if (validateInput(pilot) === "Not a Number" || validateInput(copilot) === "Not a Number" || validateInput(fuelLevel === "Not a Number") || validateInput(cargoLevel) === "Not a Number") {
+   } else if (
+       validateInput(pilot) === "Is a Number" ||
+       validateInput(copilot) === "Is a Number" ||
+       validateInput(fuelLevel === "Not a Number") ||
+       validateInput(cargoMass) === "Not a Number") {
         alert = "Confirm data is valid for ALL fields!"
    } else {
-        faultyItems.style.visibility = "visible";
+        list.style.visibility = "visible";
         pilotStatus.innerHTML = `Pilot ${pilot} is ready for launch.`
         copilotStatus.innerHTML = `Co-pilot ${copilot} is ready for launch`;
+        cargoStatus.innerHTML = "Cargo mass in acceptable range for launch";
+        fuelStatus.innerHTML = "Fuel level acceptable for launch";
+        launchStatus.innerHTML - "Shuttle is NOT ready for launch";
+        launchStatus.style.color = "red"
             //not enough fuel & acceptable cargo
-        if (fuelLevel < 10000 && cargoLevel <= 10000){
+        if (cargoMass > 10000 && fuelLevel < 10000){
             fuelStatus.innerHTML = "Not enough fuel for the journey.";
-            launchStatus.innerHTML = "Shuttle NOT ready for launch!";
-            launchStatus.style.color = "red";
-            cargoStatus.innerHTML = "Cargo mass in acceptable range for launch.";
+            cargoStatus.innerHTML = "Too much mass for the shuttle to launch!";
            // enough fuel & too much cargo
-          } else if (fuelLevel >= 10000 && cargoLevel > 10000) {
-            fuelStatus.innerHTML = "Fuel level acceptable for launch.";
-            launchStatus.innerHTML = "Shuttle NOT ready for launch!";
-            launchStatus.style.color = "red";
+          } else if (cargoMass > 1000) {
             cargoStatus.innerHTML = "Too much mass for the shuttle to launch!";
             //enough fuel & acceptable cargo aka ready for launch
+          } else if (fuelLevel < 10000) {
+              fuelStatus.innerHTML = "Not enough fuel for the journey."
           } else {
-            fuelStatus.innerHTML = "Fuel level acceptable for launch.";
             launchStatus.innerHTML = "Shuttle is ready for launch!";
             launchStatus.style.color = "green";
-            cargoStatus.innerHTML = "Cargo mass is an acceptable range for launch.";
           }
-   }
-}
+         } 
+    }
+
 
 /*If the user submits a fuel level that is too low (less than 10,000 liters), change faultyItems to visible with an updated fuel status stating that there is not enough fuel for the journey. The text of the h2 element, launchStatus, should also change to "Shuttle not ready for launch" and the color should change to red.
 
@@ -86,7 +94,8 @@ async function myFetch() {
 }
 */
 async function myFetch() {
-    let planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response) {
+    let planetsReturned;
+    planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response) {
         return response.json();
         });
     return planetsReturned;
