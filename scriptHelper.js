@@ -66,7 +66,7 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoMass) {
       cargoStatus.innerHTML = "Cargo in acceptable range for launch";
     } else {
       launchStatus.innerHTML = "Shuttle is Ready for Launch";
-      launchStatus.style.color = "red";
+      launchStatus.style.color = "green";
     }
   }
 }
